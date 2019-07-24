@@ -1,5 +1,14 @@
 module.exports = {
-  extends: ['vue', 'plugin:vue/recommended'],
+  parser: 'vue-eslint-parser',
+  parserOptions: {
+    parser: '@typescript-eslint/parser'
+  },
+  extends: [
+    'plugin:@typescript-eslint/recommended',
+    'plugin:vue/recommended',
+    'prettier/@typescript-eslint',
+    'plugin:prettier/recommended'
+  ],
   rules: {
     'space-before-function-paren': 'off',
     'vue/html-self-closing': [
@@ -25,6 +34,8 @@ module.exports = {
         }
       }
     ],
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/no-empty-interface': 'off'
   },
   env: {
     browser: true

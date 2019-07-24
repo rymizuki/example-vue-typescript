@@ -12,9 +12,13 @@ module.exports = {
     publicPath: '/scripts/'
   },
   module: {
-    rules: [{ test: /\.vue$/, use: 'vue-loader' }]
+    rules: [
+      { test: /\.vue$/, use: 'vue-loader' },
+      { test: /\.ts$/, use: 'ts-loader' }
+    ]
   },
   resolve: {
+    extensions: ['.js', '.ts'],
     alias: {
       '~': path.join(srcDir),
       '~~': path.join(rootDir),
