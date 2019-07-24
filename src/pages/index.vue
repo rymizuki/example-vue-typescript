@@ -32,25 +32,28 @@
   </article>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      form: { content: '' }
-    }
-  },
-  computed: {
-    notes() {
-      return this.$store.getters['notes/rows']()
-    }
-  },
+<script lang="ts">
+import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
+import { root } from '../store/root'
+
+@Component
+export default class App extends Vue {
+  context = root.context(this.$store)
+
+  form = { content: '' }
+
+  get notes() {
+    return this.$store.getters.getNotes()
+  }
+
   created() {
-    this.$store.dispatch('viewIndex')
-  },
-  methods: {
-    async add() {
-      this.$store.dispatch('addNote', this.form)
-    }
+    console.log(this.$store)
+    this.context.actions.viewIndex()
+  }
+
+  async add() {
+    this.context.actions.addNote(this.form)
   }
 }
 </script>
