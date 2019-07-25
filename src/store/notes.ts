@@ -1,54 +1,40 @@
-import { Getters, Mutations, Actions, Module } from 'vuex-smart-module'
-import { NoteEntity, NoteForm } from './types'
+import { NoteEntity, NoteForm, NotesState, RootState } from './types'
+import { GetterTree, MutationTree, ActionTree } from 'vuex'
 
 export const namespaced = true
 
-export class NotesState {
-  rows: NoteEntity[] = []
-}
+export const state: NotesState = { rows: [] }
 
-export class NotesGetters extends Getters<NotesState> {
-  rows() {
-    return this.state.rows
+export const getters: GetterTree<NotesState, RootState> = {
+  rows(state) {
+    return () => state.rows
   }
 }
 
-export class NotesMutations extends Mutations<NotesState> {
-  FETCH_RESOLVE(rows: NoteEntity[]) {
-    this.state.rows = rows
-  }
-  ADD_RESOLVE(form: NoteForm) {
-    const lastId = this.state.rows[this.state.rows.length - 1].id
+export const mutations: MutationTree<NotesState> = {
+  FETCH_RESOLVE(state, rows: NoteEntity[]) {
+    state.rows = rows
+  },
+  ADD_RESOLVE(state, form: NoteForm) {
+    const lastId = state.rows[state.rows.length - 1].id
     const note: NoteEntity = {
       id: lastId + 1,
       content: form.content,
       created: new Date()
     }
-    this.state.rows.push(note)
+    state.rows.push(note)
   }
 }
 
-export class NotesActions extends Actions<
-  NotesState,
-  NotesGetters,
-  NotesMutations,
-  NotesActions
-> {
-  async fetch() {
+export const actions: ActionTree<NotesState, RootState> = {
+  async fetch(ctx) {
     const rows: NoteEntity[] = [
       { id: 1, content: 'テスト', created: new Date('2019-07-24 23:47:00') }
     ]
-    this.commit('FETCH_RESOLVE', rows)
-  }
+    ctx.commit('FETCH_RESOLVE', rows)
+  },
 
-  async add(form: NoteForm) {
-    this.commit('ADD_RESOLVE', form)
+  async add(ctx, form: NoteForm) {
+    ctx.commit('ADD_RESOLVE', form)
   }
 }
-
-export default new Module({
-  state: NotesState,
-  getters: NotesGetters,
-  mutations: NotesMutations,
-  actions: NotesActions
-})

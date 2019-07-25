@@ -1,4 +1,6 @@
-export interface RootState {}
+export interface RootState {
+  notes?: NotesState
+}
 
 export interface NotesState {
   rows: NoteEntity[]
