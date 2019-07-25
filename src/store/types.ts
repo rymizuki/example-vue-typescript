@@ -15,3 +15,38 @@ export interface NoteEntity {
   content: string
   created: Date
 }
+export interface RootGetters {
+  getNotes(): NoteEntity[]
+}
+
+export interface RootMutations {}
+
+export interface RootActions {
+  viewIndex: {}
+  addNote: {
+    form: NoteForm
+  }
+  'notes/fetch': {}
+  'notes/add': {
+    form: NoteForm
+  }
+}
+
+export interface NotesGetters {
+  rows: () => NoteEntity[]
+}
+
+export interface NotesMutations {
+  FETCH_RESOLVE: {
+    rows: NoteEntity[]
+  }
+  ADD_RESOLVE: {
+    form: NoteForm
+  }
+}
+export interface NotesActions {
+  fetch: {}
+  add: {
+    form: NoteForm
+  }
+}
